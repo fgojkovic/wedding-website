@@ -35,11 +35,10 @@ export default function LandingPage() {
             </h2>
           </div>
 
-          {/* Couple Info - Animated */}
+          {/* Wedding Info - Animated */}
           <div className="pt-8 space-y-3 animate-fade-in-up animation-delay-300">
-            <p className="text-sm text-white/70 tracking-widest uppercase">to celebrate the wedding of</p>
             <h3 className="text-4xl md:text-5xl font-light text-white">
-              Filip & Matea
+              Filip Gojković & Matea Kranjčec
             </h3>
             <p className="text-2xl text-white/80 font-light">
               August 28th, 2026
