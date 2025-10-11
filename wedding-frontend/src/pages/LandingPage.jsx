@@ -53,7 +53,7 @@ export default function LandingPage() {
           {/* Floating Animation */}
           <div className="pt-4 animate-bounce animation-delay-500">
             <p className="text-white/60 text-sm italic">
-              ↓ Check your invitation link ↓
+              ↓ Invitation to follow ↓
             </p>
           </div>
         </div>
