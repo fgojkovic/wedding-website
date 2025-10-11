@@ -38,7 +38,7 @@ export default function LandingPage() {
           {/* Wedding Info - Animated */}
           <div className="pt-8 space-y-3 animate-fade-in-up animation-delay-300">
             <h3 className="text-4xl md:text-5xl font-light text-white">
-              Filip Gojković & Matea Kranjčec
+              Filip & Matea
             </h3>
             <p className="text-2xl text-white/80 font-light">
               August 28th, 2026
