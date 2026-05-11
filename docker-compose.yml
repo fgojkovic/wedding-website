@@ -18,7 +18,9 @@ services:
 
   # ── Express Backend ──────────────────────────────────────────────────────────
   backend:
-    build: ./wedding-backend
+    build:
+      context: ./wedding-backend
+      network: host
     restart: unless-stopped
     depends_on:
       db:
@@ -39,7 +41,9 @@ services:
 
   # ── React Frontend (nginx) ───────────────────────────────────────────────────
   frontend:
-    build: ./wedding-frontend
+    build:
+      context: ./wedding-frontend
+      network: host
     restart: unless-stopped
     depends_on:
       - backend
