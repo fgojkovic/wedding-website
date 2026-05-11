@@ -3,7 +3,7 @@ FROM node:20-alpine
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install --omit=dev --registry=https://registry.npmjs.org
+RUN rm -f /root/.npmrc && npm install --omit=dev --registry=https://registry.npmjs.org
 
 COPY . .
 
