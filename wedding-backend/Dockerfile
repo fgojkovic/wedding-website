@@ -1,9 +1,11 @@
 FROM node:20-alpine
 
+ENV npm_config_registry=https://registry.npmjs.org
+
 WORKDIR /app
 
 COPY package*.json ./
-RUN rm -f /root/.npmrc && npm install --omit=dev --registry=https://registry.npmjs.org
+RUN npm install --omit=dev
 
 COPY . .
 
