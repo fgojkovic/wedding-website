@@ -1,6 +1,6 @@
 // File: src/pages/AdminDashboardPage.jsx
 import React, { useState, useEffect } from 'react';
-import { LogOut, Download, RefreshCw, Users, Calendar, CheckCircle2, Mail, Link, Upload, Send } from 'lucide-react';
+import { LogOut, Download, RefreshCw, Users, Calendar, CheckCircle2, Mail, Link, Upload, Send, Trash2 } from 'lucide-react';
 import '../styles/animations.css';
 
 export default function AdminDashboardPage({ onLogout }) {
@@ -25,6 +25,10 @@ export default function AdminDashboardPage({ onLogout }) {
   // Reminder blast state
   const [reminderLoading, setReminderLoading] = useState(false);
   const [reminderMsg, setReminderMsg] = useState('');
+
+  // Delete confirmation state
+  const [deleteTarget, setDeleteTarget] = useState(null); // { id, first_name, last_name }
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     fetchRSVPs();
@@ -126,6 +130,21 @@ export default function AdminDashboardPage({ onLogout }) {
   };
 
   const copyToClipboard = (text) => navigator.clipboard.writeText(text);
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteTarget) return;
+    setDeleteLoading(true);
+    try {
+      const res = await fetch(`/api/rsvp/${deleteTarget.id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to delete');
+      setRsvps((prev) => prev.filter((r) => r.id !== deleteTarget.id));
+      setDeleteTarget(null);
+    } catch (err) {
+      console.error('Delete error:', err);
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -372,6 +391,7 @@ export default function AdminDashboardPage({ onLogout }) {
                       <th className="px-6 py-5 text-left"><span className="text-white/80 font-light text-xs uppercase tracking-wider">Last Name</span></th>
                       <th className="px-6 py-5 text-left"><span className="text-white/80 font-light text-xs uppercase tracking-wider">Email</span></th>
                       <th className="px-6 py-5 text-left"><span className="text-white/80 font-light text-xs uppercase tracking-wider">Date Submitted</span></th>
+                      <th className="px-6 py-5"></th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/10">
@@ -390,6 +410,15 @@ export default function AdminDashboardPage({ onLogout }) {
                             {new Date(rsvp.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                           </span>
                         </td>
+                        <td className="px-4 py-5 text-right">
+                          <button
+                            onClick={() => setDeleteTarget(rsvp)}
+                            className="p-2 text-white/20 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition duration-200"
+                            title="Delete RSVP"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -404,6 +433,52 @@ export default function AdminDashboardPage({ onLogout }) {
           )}
         </div>
       </div>
+
+      {/* ── Delete Confirmation Modal ──────────────────────────────────────── */}
+      {deleteTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          {/* Backdrop */}
+          <button
+            type="button"
+            aria-label="Close dialog"
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm w-full cursor-default"
+            onClick={() => !deleteLoading && setDeleteTarget(null)}
+          />
+          {/* Modal */}
+          <div className="relative bg-slate-900 border border-red-500/30 rounded-xl p-8 max-w-md w-full shadow-2xl animate-fade-in">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="bg-red-500/20 p-2 rounded-lg">
+                <Trash2 size={20} className="text-red-400" />
+              </div>
+              <h3 className="text-xl font-light text-white">Delete RSVP</h3>
+            </div>
+            <p className="text-white/70 mb-2">
+              Are you sure you want to delete the RSVP for:
+            </p>
+            <p className="text-white font-light text-lg mb-6">
+              {deleteTarget.first_name} {deleteTarget.last_name}
+            </p>
+            <p className="text-white/40 text-sm mb-8">This action cannot be undone.</p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setDeleteTarget(null)}
+                disabled={deleteLoading}
+                className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 rounded-lg transition duration-200 disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteConfirm}
+                disabled={deleteLoading}
+                className="flex-1 py-3 bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/40 rounded-lg transition duration-200 disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                <Trash2 size={15} />
+                {deleteLoading ? 'Deleting...' : 'Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

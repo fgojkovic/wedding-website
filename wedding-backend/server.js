@@ -123,6 +123,27 @@ app.post('/api/rsvp', async (req, res) => {
   }
 });
 
+// ─── API: Delete an RSVP ─────────────────────────────────────────────────────
+app.delete('/api/rsvp/:id', async (req, res) => {
+  const { id } = req.params;
+  const connection = await pool.getConnection();
+
+  try {
+    const [result] = await connection.query('DELETE FROM rsvp WHERE id = ?', [id]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'RSVP not found' });
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Delete RSVP error:', error);
+    res.status(500).json({ error: 'Database error' });
+  } finally {
+    connection.release();
+  }
+});
+
 // ─── API: Get all RSVPs ───────────────────────────────────────────────────────
 app.get('/api/rsvp-list', async (req, res) => {
   const connection = await pool.getConnection();
