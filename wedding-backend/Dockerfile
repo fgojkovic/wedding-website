@@ -1,11 +1,6 @@
 FROM node:20-alpine
 
-ENV npm_config_registry=https://registry.npmjs.org
-
 WORKDIR /app
-
-COPY package*.json ./
-RUN npm install --omit=dev
 
 COPY . .
 
