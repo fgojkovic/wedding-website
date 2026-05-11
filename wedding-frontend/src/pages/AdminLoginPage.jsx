@@ -36,7 +36,7 @@ export default function AdminLoginPage({ onLoginSuccess }) {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1519671482749-fd09be7ccebf")',
+          backgroundImage: 'url("/images/admin-login-bg.jpg")',
           filter: 'brightness(0.3)'
         }}
       />

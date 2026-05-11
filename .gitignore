@@ -1,0 +1,5 @@
+.env
+wedding-backend/.env
+node_modules
+wedding-frontend/node_modules
+wedding-frontend/dist

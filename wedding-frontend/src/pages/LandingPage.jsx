@@ -9,7 +9,7 @@ export default function LandingPage() {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1519741497674-611481863552?w=1600&h=900&fit=crop")',
+          backgroundImage: 'url("/images/landing-bg.jpg")',
           filter: 'brightness(0.4)'
         }}
       />
@@ -51,9 +51,9 @@ export default function LandingPage() {
           </div>
 
           {/* Floating Animation */}
-          <div className="pt-4 animate-bounce animation-delay-500">
-            <p className="text-white/60 text-sm italic">
-              ↓ Invitation to follow ↓
+          <div className="pt-4 animate-pulse-glow">
+            <p className="text-white/60 text-sm italic tracking-widest">
+              Invitation to follow
             </p>
           </div>
         </div>

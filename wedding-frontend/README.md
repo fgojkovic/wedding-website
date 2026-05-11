@@ -1,16 +1,54 @@
-# React + Vite
+# wedding-frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite frontend for the wedding website. For full project documentation see the [root README](../README.md).
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+npm run dev       # development server at http://localhost:5173
+npm run build     # production build
+npm run preview   # preview production build
+npm run lint      # run ESLint
+```
 
-## React Compiler
+> In dev mode, Vite proxies all `/api` requests to `http://localhost:5000` automatically — no CORS config needed.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
+- **React 19** — UI library
+- **Vite 7** — build tool & dev server (with `/api` proxy configured)
+- **Tailwind CSS v4** — utility-first styling
+- **Lucide React** — icon library
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Structure
+
+```
+src/
+├── pages/
+│   ├── LandingPage.jsx        # "Save the Date" animated hero
+│   ├── RSVPPage.jsx           # RSVP form + venue info + embedded maps
+│   ├── AdminLoginPage.jsx     # Admin login
+│   └── AdminDashboardPage.jsx # RSVP list, invite generator, email tools
+├── styles/
+│   └── animations.css
+├── App.jsx
+└── main.jsx
+```
+
+## Background images
+
+Local wedding photos are stored in `public/images/` and referenced as `/images/<file>.jpg`.
+They are compressed to ≤ 1920px / 80% JPEG quality for web performance.
+
+| File | Used on |
+|---|---|
+| `landing-bg.jpg` | Landing page |
+| `rsvp-bg.jpg` | RSVP page |
+| `admin-login-bg.jpg` | Admin login |
+| `admin-dashboard-bg.jpg` | Admin dashboard |
+
+## Production build (Docker)
+
+In production the app is built with `npm run build` and served by **nginx**, which also proxies `/api/*` to the backend container. See [wedding-frontend/Dockerfile](Dockerfile) and [nginx.conf](nginx.conf).
+

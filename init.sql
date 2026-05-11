@@ -1,0 +1,19 @@
+CREATE DATABASE IF NOT EXISTS wedding_db;
+USE wedding_db;
+
+CREATE TABLE IF NOT EXISTS invites (
+  id         INT AUTO_INCREMENT PRIMARY KEY,
+  code       VARCHAR(36)  NOT NULL UNIQUE,
+  guest_name VARCHAR(255),
+  is_general BOOLEAN      DEFAULT FALSE,
+  created_at TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS rsvp (
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  first_name  VARCHAR(100) NOT NULL,
+  last_name   VARCHAR(100) NOT NULL,
+  email       VARCHAR(255)           NULL,
+  invite_code VARCHAR(36)  NOT NULL,
+  created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+);
