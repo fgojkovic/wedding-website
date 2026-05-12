@@ -1,0 +1,118 @@
+{
+  "info": {
+    "_postman_id": "b1e7e7c2-2026-4c1a-8c1e-20260512abcd",
+    "name": "Wedding Website API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman collection for testing all API endpoints of the wedding website."
+  },
+  "item": [
+    {
+      "name": "Get Invite Details",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/invite/{{inviteCode}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "invite", "{{inviteCode}}"]
+        }
+      }
+    },
+    {
+      "name": "Submit RSVP",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john@example.com\",\n  \"inviteCode\": \"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/rsvp",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "rsvp"]
+        }
+      }
+    },
+    {
+      "name": "Delete RSVP",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/rsvp/{{rsvpId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "rsvp", "{{rsvpId}}"]
+        }
+      }
+    },
+    {
+      "name": "Get All RSVPs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/rsvp-list",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "rsvp-list"]
+        }
+      }
+    },
+    {
+      "name": "Generate Invites (Excel)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "baseUrl", "value": "https://yourwedding.com", "type": "text" },
+            { "key": "file", "type": "file" }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/invites/generate",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "invites", "generate"]
+        }
+      }
+    },
+    {
+      "name": "Send Test Email",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"to\": \"test@example.com\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/email/test",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "email", "test"]
+        }
+      }
+    },
+    {
+      "name": "Send Reminders to All RSVPs",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/email/send-reminders",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "email", "send-reminders"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "inviteCode", "value": "sample-invite-code" },
+    { "key": "rsvpId", "value": "1" }
+  ]
+}

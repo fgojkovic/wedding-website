@@ -1,6 +1,16 @@
 # wedding-frontend
 
-React + Vite frontend for the wedding website. For full project documentation see the [root README](../README.md).
+
+React + Vite frontend for the wedding website. For full deployment and environment setup, see the [root README](../README.md).
+
+## Deploying with Coolify
+
+You can deploy this frontend as a static site or Vite app in Coolify:
+
+- **Static Site:** Let Coolify build the project (`npm run build`) and serve the `dist/` folder.
+- **Vite App:** For development, Coolify can run `npm run dev` (port 5173 by default).
+
+API requests to `/api` are proxied to the backend in development. In production, configure your frontend to call the backend’s public URL or use Coolify’s proxy features if needed.
 
 ## Getting Started
 
@@ -48,7 +58,4 @@ They are compressed to ≤ 1920px / 80% JPEG quality for web performance.
 | `admin-login-bg.jpg` | Admin login |
 | `admin-dashboard-bg.jpg` | Admin dashboard |
 
-## Production build (Docker)
-
-In production the app is built with `npm run build` and served by **nginx**, which also proxies `/api/*` to the backend container. See [wedding-frontend/Dockerfile](Dockerfile) and [nginx.conf](nginx.conf).
 

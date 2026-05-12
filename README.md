@@ -73,14 +73,11 @@
 
 ```
 wedding-website/
-├── docker-compose.yml         # Orchestrates all services
-├── init.sql                   # Creates DB tables on first Docker boot
-├── .env                       # SMTP secrets for docker-compose (not committed)
+├── init.sql                   # Creates DB tables for MySQL
 ├── .gitignore
 ├── README.md
 ├── wedding-frontend/
-│   ├── Dockerfile             # Multi-stage: build → nginx
-│   ├── nginx.conf             # Serves SPA + proxies /api → backend
+│   ├── nginx.conf             # (Optional) For custom proxy setups
 │   ├── vite.config.js         # Includes dev proxy for local development
 │   └── src/
 │       ├── pages/
@@ -91,50 +88,38 @@ wedding-website/
 │       └── styles/
 │           └── animations.css
 └── wedding-backend/
-    ├── Dockerfile
-    ├── server.js              # Express API + cron job
-    ├── generate-invites.js    # CLI invite generator (legacy)
-    └── .env                   # Local dev only (not committed)
+  ├── server.js              # Express API + cron job
+  ├── generate-invites.js    # CLI invite generator (legacy)
+  └── .env                   # Local dev only (not committed)
 ```
 
 ---
 
-## Running with Docker (recommended)
+## Deploying with Coolify
 
-### Prerequisites
+Coolify makes it easy to deploy Node.js, React, and MySQL apps without Docker. Here’s how to deploy this project:
 
-- [Docker](https://docs.docker.com/get-docker/) and Docker Compose installed on your server/machine
+### 1. Prepare the Database
 
-### Steps
+- Provision a MySQL 8 database (Coolify can manage this, or use your own server).
+- Run the contents of `init.sql` to create the required tables.
 
-1. **Clone the repo** onto your server
-2. **Fill in SMTP credentials** in the root `.env`:
-   ```env
-   SMTP_HOST=smtp.gmail.com
-   SMTP_PORT=587
-   SMTP_SECURE=false
-   SMTP_USER=your@gmail.com
-   SMTP_PASS=your16charapppassword
-   ```
-3. **Build and start everything:**
-   ```bash
-   docker compose up -d --build
-   ```
-4. The site is live at **`http://<server-ip>`**
+### 2. Deploy the Backend
 
-On first boot, Docker automatically creates the MySQL database and tables from `init.sql`.
+- Add a new **Node.js app** in Coolify, pointing to the `wedding-backend` folder.
+- Set environment variables as described in the [Environment Variables](#environment-variables) section (DB and SMTP settings).
+- The backend will run on port 5000 by default.
 
-### Useful Docker commands
+### 3. Deploy the Frontend
 
-```bash
-docker compose up -d --build      # Build images and start (detached)
-docker compose down               # Stop all containers
-docker compose logs -f backend    # Stream backend logs
-docker compose logs -f frontend   # Stream nginx logs
-docker compose restart backend    # Restart one service
-```
+- Add a new **Static Site** or **Vite/React app** in Coolify, pointing to the `wedding-frontend` folder.
+- For static hosting: build locally with `npm run build` and deploy the `dist/` folder, or let Coolify build it for you.
+- The frontend will run on port 5173 by default (for dev) or be served as static files in production.
 
-Database data is stored in a Docker volume (`db_data`) and **persists across restarts and rebuilds**.
+### 4. Configure API Proxy (if needed)
+
+- In development, Vite proxies `/api` to the backend automatically.
+- In production, if you need to proxy `/api` requests, use Coolify’s built-in proxy features or set up a reverse proxy (nginx, Caddy, etc). For most setups, direct API calls to the backend URL are fine.
 
 ---
 
@@ -199,14 +184,22 @@ SMTP_USER=your@gmail.com
 SMTP_PASS=your16charapppassword
 ```
 
-### Root `.env` (Docker / production)
+### Production `.env` (Coolify or other platforms)
 
-```env
+Set these as environment variables in your deployment platform (Coolify, etc):
+
+```
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_SECURE=false
 SMTP_USER=your@gmail.com
 SMTP_PASS=your16charapppassword
+DB_HOST=your_mysql_host
+DB_USER=your_mysql_user
+DB_PASSWORD=your_mysql_password
+DB_NAME=wedding_db
+PORT=5000
+NODE_ENV=production
 ```
 
 > **Gmail note:** Regular passwords are blocked. Generate a 16-character [App Password](https://myaccount.google.com/apppasswords) (requires 2FA enabled).
