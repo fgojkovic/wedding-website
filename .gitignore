@@ -2,3 +2,5 @@
 wedding-backend/.env
 node_modules
 wedding-frontend/node_modules
+wedding-frontend/package-lock.json
+wedding-backend/package-lock.json
