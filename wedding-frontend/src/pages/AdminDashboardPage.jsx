@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { LogOut, Download, RefreshCw, Users, Calendar, CheckCircle2, Mail, Link, Upload, Send, Trash2 } from 'lucide-react';
 import '../styles/animations.css';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+
 export default function AdminDashboardPage({ onLogout }) {
   const [rsvps, setRsvps] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +40,7 @@ export default function AdminDashboardPage({ onLogout }) {
     setLoading(true);
     setErrorMsg('');
     try {
-      const response = await fetch('/api/rsvp-list');
+      const response = await fetch(`${API_BASE}/api/rsvp-list`);
       if (!response.ok) throw new Error('Failed to fetch RSVPs');
       const data = await response.json();
       setRsvps(data);
@@ -78,7 +80,7 @@ export default function AdminDashboardPage({ onLogout }) {
       formData.append('baseUrl', inviteBaseUrl);
       if (inviteFile) formData.append('file', inviteFile);
 
-      const res = await fetch('/api/invites/generate', {
+      const res = await fetch(`${API_BASE}/api/invites/generate`, {
         method: 'POST',
         body: formData,
       });
@@ -98,7 +100,7 @@ export default function AdminDashboardPage({ onLogout }) {
     setEmailMsg('');
     setEmailError('');
     try {
-      const res = await fetch('/api/email/test', {
+      const res = await fetch(`${API_BASE}/api/email/test`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ to: testEmail }),
@@ -118,7 +120,7 @@ export default function AdminDashboardPage({ onLogout }) {
     setReminderLoading(true);
     setReminderMsg('');
     try {
-      const res = await fetch('/api/email/send-reminders', { method: 'POST' });
+      const res = await fetch(`${API_BASE}/api/email/send-reminders`, { method: 'POST' });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setReminderMsg(`Sent: ${data.sent} · Failed: ${data.failed}`);
@@ -135,7 +137,7 @@ export default function AdminDashboardPage({ onLogout }) {
     if (!deleteTarget) return;
     setDeleteLoading(true);
     try {
-      const res = await fetch(`/api/rsvp/${deleteTarget.id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/api/rsvp/${deleteTarget.id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Failed to delete');
       setRsvps((prev) => prev.filter((r) => r.id !== deleteTarget.id));
       setDeleteTarget(null);
