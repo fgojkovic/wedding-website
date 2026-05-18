@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { CheckCircle, ExternalLink, MapPin } from 'lucide-react';
 import '../styles/animations.css';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+
 export default function RSVPPage({ inviteCode, onReturn }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -15,7 +17,7 @@ export default function RSVPPage({ inviteCode, onReturn }) {
   useEffect(() => {
     if (!inviteCode) return;
 
-    fetch(`/api/invite/${inviteCode}`)
+    fetch(`${API_BASE}/api/invite/${inviteCode}`)
       .then((res) => res.ok ? res.json() : null)
       .then((data) => {
         if (data?.guestName && data.guestName !== 'General Invitation') {
@@ -33,7 +35,7 @@ export default function RSVPPage({ inviteCode, onReturn }) {
     setErrorMsg('');
 
     try {
-      const response = await fetch('/api/rsvp', {
+      const response = await fetch(`${API_BASE}/api/rsvp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
