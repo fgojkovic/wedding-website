@@ -1,11 +1,27 @@
 // File: src/pages/AdminDashboardPage.jsx
 import React, { useState, useEffect } from 'react';
+// Snackbar component
+function Snackbar({ message, onClose }) {
+  if (!message) return null;
+  return (
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg animate-fade-in flex items-center gap-4">
+      <span>{message}</span>
+      <button onClick={onClose} className="ml-2 text-white/80 hover:text-white font-bold">&times;</button>
+    </div>
+  );
+}
 import { LogOut, Download, RefreshCw, Users, Calendar, CheckCircle2, Mail, Link, Upload, Send, Trash2 } from 'lucide-react';
 import '../styles/animations.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 export default function AdminDashboardPage({ onLogout }) {
+    // Snackbar state
+    const [snackbarMsg, setSnackbarMsg] = useState('');
+    const showSnackbar = (msg) => {
+      setSnackbarMsg(msg);
+      setTimeout(() => setSnackbarMsg(''), 5000);
+    };
   const [rsvps, setRsvps] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
@@ -48,6 +64,7 @@ export default function AdminDashboardPage({ onLogout }) {
     } catch (error) {
       console.error('Fetch Error:', error);
       setErrorMsg('Failed to load RSVPs. Make sure your backend is running.');
+      showSnackbar('Failed to load RSVPs. Make sure your backend is running.');
     } finally {
       setLoading(false);
     }
@@ -84,11 +101,17 @@ export default function AdminDashboardPage({ onLogout }) {
         method: 'POST',
         body: formData,
       });
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch (e) {
+        throw new Error('Invalid response from server.');
+      }
       if (!res.ok) throw new Error(data.error || 'Failed to generate invites');
       setInviteResults(data.invites);
     } catch (err) {
       setInviteError(err.message);
+      showSnackbar(err.message);
     } finally {
       setInviteLoading(false);
     }
@@ -105,11 +128,17 @@ export default function AdminDashboardPage({ onLogout }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ to: testEmail }),
       });
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch (e) {
+        throw new Error('Invalid response from server.');
+      }
       if (!res.ok) throw new Error(data.error);
       setEmailMsg(data.message);
     } catch (err) {
       setEmailError(err.message);
+      showSnackbar(err.message);
     } finally {
       setEmailLoading(false);
     }
@@ -121,11 +150,17 @@ export default function AdminDashboardPage({ onLogout }) {
     setReminderMsg('');
     try {
       const res = await fetch(`${API_BASE}/api/email/send-reminders`, { method: 'POST' });
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch (e) {
+        throw new Error('Invalid response from server.');
+      }
       if (!res.ok) throw new Error(data.error);
       setReminderMsg(`Sent: ${data.sent} · Failed: ${data.failed}`);
     } catch (err) {
       setReminderMsg(`Error: ${err.message}`);
+      showSnackbar(err.message);
     } finally {
       setReminderLoading(false);
     }
@@ -143,6 +178,7 @@ export default function AdminDashboardPage({ onLogout }) {
       setDeleteTarget(null);
     } catch (err) {
       console.error('Delete error:', err);
+      showSnackbar('Failed to delete RSVP.');
     } finally {
       setDeleteLoading(false);
     }
@@ -150,6 +186,7 @@ export default function AdminDashboardPage({ onLogout }) {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
+      <Snackbar message={snackbarMsg} onClose={() => setSnackbarMsg('')} />
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
