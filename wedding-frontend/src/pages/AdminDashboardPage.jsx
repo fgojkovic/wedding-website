@@ -12,7 +12,7 @@ export default function AdminDashboardPage({ onLogout }) {
   const [lastUpdated, setLastUpdated] = useState(null);
 
   // Invite generator state
-  const [inviteBaseUrl, setInviteBaseUrl] = useState('http://localhost:5173');
+  const [inviteBaseUrl, setInviteBaseUrl] = useState('https://f-m-wedding.duckdns.org/');
   const [inviteFile, setInviteFile] = useState(null);
   const [inviteLoading, setInviteLoading] = useState(false);
   const [inviteResults, setInviteResults] = useState(null);
@@ -373,17 +373,19 @@ export default function AdminDashboardPage({ onLogout }) {
           </div>
 
           {/* ── Guests Table ────────────────────────────────────────────────── */}
-          {loading ? (
+          {loading && (
             <div className="text-center py-16 animate-fade-in">
               <p className="text-white/60 font-light">Loading RSVPs...</p>
             </div>
-          ) : rsvps.length === 0 ? (
+          )}
+          {!loading && rsvps.length === 0 && (
             <div className="text-center py-16 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm animate-fade-in">
               <Users size={48} className="mx-auto text-white/30 mb-4" />
               <p className="text-white/60 mb-2 font-light">No RSVPs yet</p>
               <p className="text-white/40 text-sm font-light">Guest confirmations will appear here</p>
             </div>
-          ) : (
+          )}
+          {!loading && rsvps.length > 0 && (
             <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden backdrop-blur-sm animate-fade-in animation-delay-300 hover:shadow-xl transition duration-300">
               <div className="overflow-x-auto">
                 <table className="w-full">

@@ -46,16 +46,16 @@ export default function LandingPage() {
           </div>
 
           {/* Decorative Line - Animated */}
-          <div className="pt-16 animate-fade-in animation-delay-600">
+          {/* <div className="pt-16 animate-fade-in animation-delay-600">
             <div className="h-px w-24 bg-white/30 mx-auto"></div>
-          </div>
+          </div> */}
 
           {/* Floating Animation */}
-          <div className="pt-4 animate-pulse-glow">
+          {/* <div className="pt-4 animate-pulse-glow">
             <p className="text-white/60 text-sm italic tracking-widest">
               Invitation to follow
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
