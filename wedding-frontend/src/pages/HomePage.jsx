@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import LazyBackgroundImage from '../components/LazyBackgroundImage';
 // Countdown calculation helper
 function getCountdownParts(targetDate) {
   const now = new Date();
@@ -122,7 +123,11 @@ export default function HomePage() {
     <div className="w-full min-h-screen bg-white">
       {/* 1. Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('/images/${randomPhoto}')`, filter: 'brightness(0.85)' }} />
+        <LazyBackgroundImage
+          src={`/images/${randomPhoto}`}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ filter: 'brightness(0.85)' }}
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-white/0" />
         <div className="relative z-10 min-h-screen flex items-center justify-center px-4 w-full">
           <div className="text-center space-y-8 max-w-2xl mx-auto">
@@ -158,14 +163,26 @@ export default function HomePage() {
       {/* 3. Two-Photo Glide Section */}
       <section className="w-full py-24 bg-white flex flex-col items-center justify-center overflow-hidden">
         <div className="relative w-full max-w-5xl flex flex-col md:flex-row gap-8 px-4">
-          <div className="w-full md:w-1/2 h-96 rounded-3xl overflow-hidden shadow-lg transform md:-translate-x-16 glide-photo glide-photo-left" style={{ backgroundImage: `url('/images/${glidePhoto1}')`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
-          <div className="w-full md:w-1/2 h-96 rounded-3xl overflow-hidden shadow-lg transform md:translate-x-16 glide-photo glide-photo-right" style={{ backgroundImage: `url('/images/${glidePhoto2}')`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+          <LazyBackgroundImage
+            src={`/images/${glidePhoto1}`}
+            className="w-full md:w-1/2 h-96 rounded-3xl overflow-hidden shadow-lg transform md:-translate-x-16 glide-photo glide-photo-left"
+            style={{ backgroundSize: 'cover', backgroundPosition: 'center' }}
+          />
+          <LazyBackgroundImage
+            src={`/images/${glidePhoto2}`}
+            className="w-full md:w-1/2 h-96 rounded-3xl overflow-hidden shadow-lg transform md:translate-x-16 glide-photo glide-photo-right"
+            style={{ backgroundSize: 'cover', backgroundPosition: 'center' }}
+          />
         </div>
       </section>
 
       {/* 4. Countdown Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('/images/${countdownPhoto}')`, filter: 'brightness(0.7)' }} />
+        <LazyBackgroundImage
+          src={`/images/${countdownPhoto}`}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ filter: 'brightness(0.7)' }}
+        />
         <div className="absolute inset-0 bg-white/70" />
         <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 py-16 space-y-12">
           <h3 className="text-3xl md:text-4xl font-light text-gray-900">Do vjenčanja je ostalo:</h3>

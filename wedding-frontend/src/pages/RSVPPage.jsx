@@ -1,5 +1,6 @@
 // File: src/pages/RSVPPage.jsx
 import React, { useState, useEffect } from 'react';
+import LazyBackgroundImage from '../components/LazyBackgroundImage';
 import { CheckCircle, ExternalLink, MapPin } from 'lucide-react';
 import '../styles/animations.css';
 
@@ -64,12 +65,10 @@ export default function RSVPPage({ inviteCode, onReturn }) {
     return (
       <div className="relative min-h-screen overflow-hidden">
         {/* Background Image */}
-        <div 
+        <LazyBackgroundImage
+          src="/images/rsvp-bg.jpg"
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: 'url("/images/rsvp-bg.jpg")',
-            filter: 'brightness(0.3)'
-          }}
+          style={{ filter: 'brightness(0.3)' }}
         />
         
         {/* Overlay */}
@@ -103,12 +102,10 @@ export default function RSVPPage({ inviteCode, onReturn }) {
   return (
     <div className="relative">
       {/* Fixed background */}
-      <div
+      <LazyBackgroundImage
+        src="/images/rsvp-bg.jpg"
         className="fixed inset-0 bg-cover bg-center bg-no-repeat -z-10"
-        style={{
-          backgroundImage: 'url("/images/rsvp-bg.jpg")',
-          filter: 'brightness(0.3)'
-        }}
+        style={{ filter: 'brightness(0.3)' }}
       />
       <div className="fixed inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent -z-10" />
 

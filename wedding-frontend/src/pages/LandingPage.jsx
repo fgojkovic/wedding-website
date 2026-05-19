@@ -1,17 +1,16 @@
 // File: src/pages/LandingPage.jsx
 import React from 'react';
+import LazyBackgroundImage from '../components/LazyBackgroundImage';
 import '../styles/animations.css';
 
 export default function LandingPage() {
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Background Image */}
-      <div 
+      <LazyBackgroundImage
+        src="/images/landing-bg.jpg"
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url("/images/landing-bg.jpg")',
-          filter: 'brightness(0.4)'
-        }}
+        style={{ filter: 'brightness(0.4)' }}
       />
 
       {/* Overlay */}
