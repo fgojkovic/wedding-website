@@ -1,7 +1,40 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
 
 body {
   margin: 0;
   padding: 0;
   font-family: system-ui, -apple-system, sans-serif;
+}
+
+.font-fancy {
+  font-family: 'Dancing Script', cursive;
+}
+
+/* Glide photo animation */
+.glide-photo-left {
+  animation: glideLeft 1.2s cubic-bezier(0.77,0,0.175,1) both;
+}
+.glide-photo-right {
+  animation: glideRight 1.2s cubic-bezier(0.77,0,0.175,1) both;
+}
+@keyframes glideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-80px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+@keyframes glideRight {
+  from {
+    opacity: 0;
+    transform: translateX(80px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }

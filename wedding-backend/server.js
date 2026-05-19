@@ -91,7 +91,7 @@ app.get('/api/invite/:code', async (req, res) => {
 
 // ─── API: Submit RSVP ────────────────────────────────────────────────────────
 app.post('/api/rsvp', async (req, res) => {
-  const { firstName, lastName, email, inviteCode } = req.body;
+  const { firstName, lastName, email, inviteCode, attendance } = req.body;
 
   if (!firstName || !lastName || !inviteCode) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -110,13 +110,48 @@ app.post('/api/rsvp', async (req, res) => {
     }
 
     await connection.query(
-      'INSERT INTO rsvp (first_name, last_name, email, invite_code) VALUES (?, ?, ?, ?)',
-      [firstName, lastName, email || null, inviteCode]
+      'INSERT INTO rsvp (first_name, last_name, email, invite_code, attendance) VALUES (?, ?, ?, ?, ?)',
+      [firstName, lastName, email || null, inviteCode, attendance || 'da']
     );
 
     res.json({ success: true, message: 'RSVP submitted successfully' });
   } catch (error) {
     console.error('RSVP Error:', error);
+    res.status(500).json({ error: 'Database error' });
+  } finally {
+    connection.release();
+  }
+});
+
+// ─── API: Get Wedding Date ───────────────────────────────────────────────────
+app.get('/api/wedding-date', async (req, res) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query('SELECT date FROM wedding_date WHERE id = 1');
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Wedding date not set' });
+    }
+    // Format date as 'YYYY-MM-DDTHH:mm' for input type="datetime-local"
+    const dateObj = new Date(rows[0].date);
+    const pad = n => n.toString().padStart(2, '0');
+    const formatted = `${dateObj.getFullYear()}-${pad(dateObj.getMonth() + 1)}-${pad(dateObj.getDate())}T${pad(dateObj.getHours())}:${pad(dateObj.getMinutes())}`;
+    res.json({ date: formatted });
+  } catch (error) {
+    res.status(500).json({ error: 'Database error' });
+  } finally {
+    connection.release();
+  }
+});
+
+// ─── API: Set Wedding Date ─────────────────────────────────────────────────--
+app.post('/api/wedding-date', async (req, res) => {
+  const { date } = req.body;
+  if (!date) return res.status(400).json({ error: 'Missing date' });
+  const connection = await pool.getConnection();
+  try {
+    await connection.query('INSERT INTO wedding_date (id, date) VALUES (1, ?) ON DUPLICATE KEY UPDATE date = VALUES(date)', [date]);
+    res.json({ success: true });
+  } catch (error) {
     res.status(500).json({ error: 'Database error' });
   } finally {
     connection.release();
@@ -287,15 +322,32 @@ app.post('/api/email/send-reminders', async (req, res) => {
   }
 });
 
-// ─── Cron: Auto-send reminders at 17:30 on August 27th ───────────────────────
-// Runs daily at 17:30 — only sends on the correct date
-cron.schedule('30 17 27 8 *', async () => {
-  console.log('[CRON] Sending wedding reminder emails...');
+// ─── Cron: Auto-send reminders at 17:30 the day before wedding ───────────────
+cron.schedule('30 17 * * *', async () => {
+  const connection = await pool.getConnection();
   try {
-    const results = await sendReminderEmails();
-    console.log(`[CRON] Done — sent: ${results.sent}, failed: ${results.failed}`);
-  } catch (err) {
-    console.error('[CRON] Error sending reminders:', err);
+    const [rows] = await connection.query('SELECT date FROM wedding_date WHERE id = 1');
+    if (rows.length === 0) return;
+    const weddingDate = new Date(rows[0].date);
+    const now = new Date();
+    // If today is the day before the wedding
+    const tomorrow = new Date(now);
+    tomorrow.setDate(now.getDate() + 1);
+    if (
+      weddingDate.getFullYear() === tomorrow.getFullYear() &&
+      weddingDate.getMonth() === tomorrow.getMonth() &&
+      weddingDate.getDate() === tomorrow.getDate()
+    ) {
+      console.log('[CRON] Sending wedding reminder emails...');
+      try {
+        const results = await sendReminderEmails();
+        console.log(`[CRON] Done — sent: ${results.sent}, failed: ${results.failed}`);
+      } catch (err) {
+        console.error('[CRON] Error sending reminders:', err);
+      }
+    }
+  } finally {
+    connection.release();
   }
 });
 

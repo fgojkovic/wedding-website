@@ -1,27 +1,31 @@
 // File: src/pages/AdminDashboardPage.jsx
 import React, { useState, useEffect } from 'react';
+import { LogOut, Download, RefreshCw, Users, Calendar, CheckCircle2, Mail, Link, Upload, Send, Trash2 } from 'lucide-react';
+import '../styles/animations.css';
+
 // Snackbar component
-function Snackbar({ message, onClose }) {
+function Snackbar({ message, onClose, color = 'red' }) {
   if (!message) return null;
+  const bg = color === 'green' ? 'bg-emerald-600' : 'bg-red-600';
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg animate-fade-in flex items-center gap-4">
+    <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 ${bg} text-white px-6 py-3 rounded-lg shadow-lg animate-fade-in flex items-center gap-4`}>
       <span>{message}</span>
       <button onClick={onClose} className="ml-2 text-white/80 hover:text-white font-bold">&times;</button>
     </div>
   );
 }
-import { LogOut, Download, RefreshCw, Users, Calendar, CheckCircle2, Mail, Link, Upload, Send, Trash2 } from 'lucide-react';
-import '../styles/animations.css';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+function AdminDashboardPage({ onLogout }) {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
-export default function AdminDashboardPage({ onLogout }) {
-    // Snackbar state
-    const [snackbarMsg, setSnackbarMsg] = useState('');
-    const showSnackbar = (msg) => {
-      setSnackbarMsg(msg);
-      setTimeout(() => setSnackbarMsg(''), 5000);
-    };
+  // Snackbar state
+  const [snackbarMsg, setSnackbarMsg] = useState('');
+  const [snackbarColor, setSnackbarColor] = useState('red');
+  const showSnackbar = (msg, color = 'red') => {
+    setSnackbarMsg(msg);
+    setSnackbarColor(color);
+    setTimeout(() => setSnackbarMsg(''), 5000);
+  };
   const [rsvps, setRsvps] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
@@ -33,6 +37,47 @@ export default function AdminDashboardPage({ onLogout }) {
   const [inviteLoading, setInviteLoading] = useState(false);
   const [inviteResults, setInviteResults] = useState(null);
   const [inviteError, setInviteError] = useState('');
+
+  // Wedding date state
+  const [weddingDate, setWeddingDate] = useState('2026-08-28T17:30');
+  const [weddingDateLoading, setWeddingDateLoading] = useState(false);
+  const [showWeddingDateDialog, setShowWeddingDateDialog] = useState(false);
+
+  useEffect(() => {
+    fetchWeddingDate();
+  }, []);
+
+  const fetchWeddingDate = async () => {
+    setWeddingDateLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/wedding-date`);
+      if (!res.ok) throw new Error('Failed to fetch wedding date');
+      const data = await res.json();
+      // Format for input type="datetime-local"
+      setWeddingDate(data.date ? data.date.slice(0, 16) : '2026-08-28T17:30');
+    } catch (err) {
+      showSnackbar('Failed to load wedding date');
+    } finally {
+      setWeddingDateLoading(false);
+    }
+  };
+
+  const handleWeddingDateSave = async () => {
+    setWeddingDateLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/wedding-date`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ date: weddingDate })
+      });
+      if (!res.ok) throw new Error('Failed to save wedding date');
+      showSnackbar('Wedding date updated!', 'green');
+    } catch (err) {
+      showSnackbar('Failed to save wedding date', 'red');
+    } finally {
+      setWeddingDateLoading(false);
+    }
+  };
 
   // Email test state
   const [testEmail, setTestEmail] = useState('');
@@ -186,7 +231,7 @@ export default function AdminDashboardPage({ onLogout }) {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      <Snackbar message={snackbarMsg} onClose={() => setSnackbarMsg('')} />
+      <Snackbar message={snackbarMsg} onClose={() => setSnackbarMsg('')} color={snackbarColor} />
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -221,27 +266,88 @@ export default function AdminDashboardPage({ onLogout }) {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-br from-cyan-500/20 to-cyan-500/5 border border-cyan-500/30 rounded-xl p-8 backdrop-blur-sm hover:shadow-lg transition duration-300 animate-fade-in">
-              <div className="flex items-center justify-between">
-                <div>
+            <div className="bg-gradient-to-br from-cyan-500/20 to-cyan-500/5 border border-cyan-500/30 rounded-xl p-8 backdrop-blur-sm hover:shadow-lg transition duration-300 animate-fade-in h-full">
+              <div className="flex items-center justify-between h-full">
+                <div className="min-w-[8rem]">
                   <p className="text-cyan-300/80 text-xs font-light uppercase tracking-widest mb-4">Total Confirmations</p>
                   <p className="text-5xl font-light text-white">{rsvps.length}</p>
                 </div>
-                <div className="bg-cyan-500/20 p-4 rounded-full"><Users size={40} className="text-cyan-400" /></div>
+                <div className="flex-shrink-0 flex items-center h-full">
+                  <div className="bg-cyan-500/20 p-3 sm:p-4 rounded-full flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 mx-auto">
+                    <Users size={36} className="text-cyan-400" />
+                  </div>
+                </div>
               </div>
             </div>
             <div className="bg-gradient-to-br from-rose-500/20 to-rose-500/5 border border-rose-500/30 rounded-xl p-8 backdrop-blur-sm hover:shadow-lg transition duration-300 animate-fade-in animation-delay-150">
-              <div className="flex items-center justify-between">
-                <div>
+              <div
+                className="flex items-center justify-between h-full cursor-pointer hover:bg-rose-500/10 active:bg-rose-500/20 transition duration-200 rounded-xl"
+                onClick={() => setShowWeddingDateDialog(true)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setShowWeddingDateDialog(true); }}
+                title="Edit wedding date"
+              >
+                <div className="w-full">
                   <p className="text-rose-300/80 text-xs font-light uppercase tracking-widest mb-4">Wedding Date</p>
-                  <p className="text-2xl font-light text-white">August 28th</p>
-                  <p className="text-sm text-rose-300/60 mt-1">2026</p>
+                  <div className="flex items-center gap-4 sm:gap-6 px-2 py-2 w-full">
+                    <div className="flex flex-col min-w-0 max-w-full md:max-w-[13rem]">
+                      <span className="text-base sm:text-lg md:text-xl text-white font-light break-words truncate">
+                        {(() => {
+                          const [datePart, timePart] = weddingDate.split('T');
+                          const [year, month, day] = datePart.split('-');
+                          return `${day}.${parseInt(month)}.${year}.`;
+                        })()}
+                      </span>
+                      <span className="text-sm sm:text-base md:text-lg text-white/80 font-light mt-1 truncate">
+                        {(() => {
+                          const time = weddingDate.split('T')[1];
+                          return `at ${time}`;
+                        })()}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-rose-500/20 p-4 rounded-full"><Calendar size={40} className="text-rose-400" /></div>
+                <div className="flex items-center h-full">
+                  <div className="bg-rose-500/20 p-3 sm:p-4 rounded-full flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 mx-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-calendar text-rose-400" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                  </div>
+                </div>
               </div>
             </div>
+            {/* Wedding Date Dialog - moved outside clickable card */}
+            {showWeddingDateDialog && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                <div className="bg-slate-900 rounded-xl p-4 sm:p-8 w-full max-w-sm sm:max-w-lg shadow-2xl border border-rose-400/30 mx-2 sm:mx-0">
+                  <h2 className="text-xl font-semibold text-white mb-4 text-center">Edit Wedding Date</h2>
+                  <input
+                    type="datetime-local"
+                    value={weddingDate}
+                    onChange={e => setWeddingDate(e.target.value)}
+                    className="w-full px-3 py-2 bg-slate-800 border border-rose-400/30 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-rose-400 transition duration-300 text-lg mb-4"
+                    disabled={weddingDateLoading}
+                  />
+                  <div className="flex gap-2">
+                    <button
+                      onClick={async () => { await handleWeddingDateSave(); setShowWeddingDateDialog(false); }}
+                      disabled={weddingDateLoading}
+                      className="flex-1 px-3 py-2 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 rounded-lg transition duration-300 disabled:opacity-50 text-sm font-light"
+                    >
+                      {weddingDateLoading ? 'Saving...' : 'Save'}
+                    </button>
+                    <button
+                      onClick={() => setShowWeddingDateDialog(false)}
+                      type="button"
+                      className="px-3 py-2 bg-slate-700/30 hover:bg-slate-700/50 text-white/60 border border-slate-600/30 rounded-lg transition duration-300 text-sm font-light"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 border border-emerald-500/30 rounded-xl p-8 backdrop-blur-sm hover:shadow-lg transition duration-300 animate-fade-in animation-delay-300">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between h-full">
                 <div>
                   <p className="text-emerald-300/80 text-xs font-light uppercase tracking-widest mb-4">With Email</p>
                   <p className="text-3xl font-light text-white">{rsvps.filter(r => r.email).length}</p>
@@ -523,3 +629,5 @@ export default function AdminDashboardPage({ onLogout }) {
     </div>
   );
 }
+
+export default AdminDashboardPage;
