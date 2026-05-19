@@ -235,7 +235,7 @@ function AdminDashboardPage({ onLogout }) {
       <Snackbar message={snackbarMsg} onClose={() => setSnackbarMsg('')} color={snackbarColor} />
       {/* Background Image */}
       <LazyBackgroundImage
-        src="/images/admin-dashboard-bg.jpg"
+        src="/images/admin-dashboard-bg.webp"
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ filter: 'brightness(0.25)' }}
       />

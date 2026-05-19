@@ -66,7 +66,7 @@ export default function RSVPPage({ inviteCode, onReturn }) {
       <div className="relative min-h-screen overflow-hidden">
         {/* Background Image */}
         <LazyBackgroundImage
-          src="/images/rsvp-bg.jpg"
+          src="/images/rsvp-bg.webp"
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ filter: 'brightness(0.3)' }}
         />
@@ -103,7 +103,7 @@ export default function RSVPPage({ inviteCode, onReturn }) {
     <div className="relative">
       {/* Fixed background */}
       <LazyBackgroundImage
-        src="/images/rsvp-bg.jpg"
+        src="/images/rsvp-bg.webp"
         className="fixed inset-0 bg-cover bg-center bg-no-repeat -z-10"
         style={{ filter: 'brightness(0.3)' }}
       />

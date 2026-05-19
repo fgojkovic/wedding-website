@@ -8,7 +8,7 @@ export default function LandingPage() {
     <div className="relative min-h-screen overflow-hidden">
       {/* Background Image */}
       <LazyBackgroundImage
-        src="/images/landing-bg.jpg"
+        src="/images/landing-bg.webp"
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ filter: 'brightness(0.4)' }}
       />
