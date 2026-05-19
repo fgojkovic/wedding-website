@@ -1,7 +1,6 @@
 // File: src/App.jsx
 import React, { useState, useEffect } from 'react';
-import LandingPage from './pages/LandingPage';
-import RSVPPage from './pages/RSVPPage';
+import HomePage from './pages/HomePage';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 
@@ -52,12 +51,9 @@ export default function App() {
   };
 
   // Render current page
-  if (currentPage === 'landing') {
-    return <LandingPage />;
-  }
-
-  if (currentPage === 'rsvp') {
-    return <RSVPPage inviteCode={inviteCode} onReturn={handleGoToLanding} />;
+  if (currentPage === 'landing' || currentPage === 'rsvp') {
+    // Always show HomePage for landing and rsvp (invite code can be handled in HomePage if needed)
+    return <HomePage />;
   }
 
   if (currentPage === 'admin-login') {
