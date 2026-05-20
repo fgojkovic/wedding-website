@@ -100,13 +100,9 @@ app.post('/api/rsvp', async (req, res) => {
   const connection = await pool.getConnection();
 
   try {
-    // Keep compatibility with existing DB schema where invite_code is NOT NULL.
-    // We no longer use personalized invite codes, so a fixed public value is stored.
-    const publicInviteCode = 'PUBLIC';
-
     await connection.query(
-      'INSERT INTO rsvp (first_name, last_name, email, invite_code, attendance) VALUES (?, ?, ?, ?, ?)',
-      [firstName, lastName, email || null, publicInviteCode, attendance || 'da']
+      'INSERT INTO rsvp (first_name, last_name, email, attendance) VALUES (?, ?, ?, ?)',
+      [firstName, lastName, email || null, attendance || 'da']
     );
 
     res.json({ success: true, message: 'RSVP submitted successfully' });

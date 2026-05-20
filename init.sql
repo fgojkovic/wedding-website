@@ -14,6 +14,5 @@ CREATE TABLE IF NOT EXISTS rsvp (
   first_name  VARCHAR(100) NOT NULL,
   last_name   VARCHAR(100) NOT NULL,
   email       VARCHAR(255)           NULL,
-  invite_code VARCHAR(36)  NOT NULL,
   created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
 );
