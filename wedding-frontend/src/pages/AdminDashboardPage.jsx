@@ -94,6 +94,9 @@ function AdminDashboardPage({ onLogout }) {
   const [deleteTarget, setDeleteTarget] = useState(null); // { id, first_name, last_name }
   const [deleteLoading, setDeleteLoading] = useState(false);
 
+  // Attendance filter
+  const [attendanceFilter, setAttendanceFilter] = useState('all');
+
   useEffect(() => {
     fetchRSVPs();
   }, []);
@@ -116,12 +119,14 @@ function AdminDashboardPage({ onLogout }) {
     }
   };
 
+  const filteredRsvps = attendanceFilter === 'all' ? rsvps : rsvps.filter(r => r.attendance === attendanceFilter);
+
   const downloadCSV = () => {
     if (rsvps.length === 0) { alert('No RSVPs to download'); return; }
-    let csv = 'First Name,Last Name,Email,Date Submitted\n';
+    let csv = 'First Name,Last Name,Email,Attendance,Date Submitted\n';
     rsvps.forEach(rsvp => {
       const date = new Date(rsvp.created_at).toLocaleDateString();
-      csv += `${rsvp.first_name},${rsvp.last_name},${rsvp.email || ''},${date}\n`;
+      csv += `${rsvp.first_name},${rsvp.last_name},${rsvp.email || ''},${rsvp.attendance || ''},${date}\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
@@ -270,6 +275,11 @@ function AdminDashboardPage({ onLogout }) {
                 <div className="min-w-[8rem]">
                   <p className="text-cyan-300/80 text-xs font-light uppercase tracking-widest mb-4">Total Confirmations</p>
                   <p className="text-5xl font-light text-white">{rsvps.length}</p>
+                  <p className="text-xs text-white/40 mt-3">
+                    <span className="text-emerald-400">{rsvps.filter(r => r.attendance === 'da').length} attending</span>
+                    {' · '}
+                    <span className="text-red-400">{rsvps.filter(r => r.attendance === 'ne').length} declined</span>
+                  </p>
                 </div>
                 <div className="flex-shrink-0 flex items-center h-full">
                   <div className="bg-cyan-500/20 p-3 sm:p-4 rounded-full flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 mx-auto">
@@ -514,6 +524,28 @@ function AdminDashboardPage({ onLogout }) {
             )}
           </div>
 
+          {/* ── Attendance Filter ──────────────────────────────────────────── */}
+          {rsvps.length > 0 && (
+            <div className="flex gap-2 animate-fade-in">
+              {[
+                { label: `All (${rsvps.length})`, value: 'all' },
+                { label: `Attending (${rsvps.filter(r => r.attendance === 'da').length})`, value: 'da' },
+                { label: `Declined (${rsvps.filter(r => r.attendance === 'ne').length})`, value: 'ne' },
+              ].map(({ label, value }) => {
+                const activeClass = { da: 'bg-emerald-500/30 text-emerald-300 border-emerald-500/50', ne: 'bg-red-500/30 text-red-300 border-red-500/50', all: 'bg-cyan-500/30 text-cyan-300 border-cyan-500/50' }[value];
+                return (
+                <button
+                  key={value}
+                  onClick={() => setAttendanceFilter(value)}
+                  className={`px-4 py-2 rounded-lg text-sm font-light border transition duration-200 ${attendanceFilter === value ? activeClass : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10'}`}
+                >
+                  {label}
+                </button>
+                );
+              })}
+            </div>
+          )}
+
           {/* ── Guests Table ────────────────────────────────────────────────── */}
           {loading && (
             <div className="text-center py-16 animate-fade-in">
@@ -527,7 +559,12 @@ function AdminDashboardPage({ onLogout }) {
               <p className="text-white/40 text-sm font-light">Guest confirmations will appear here</p>
             </div>
           )}
-          {!loading && rsvps.length > 0 && (
+          {!loading && filteredRsvps.length === 0 && rsvps.length > 0 && (
+            <div className="text-center py-16 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm animate-fade-in">
+              <p className="text-white/60 font-light">No guests match this filter</p>
+            </div>
+          )}
+          {!loading && filteredRsvps.length > 0 && (
             <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden backdrop-blur-sm animate-fade-in animation-delay-300 hover:shadow-xl transition duration-300">
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -536,12 +573,13 @@ function AdminDashboardPage({ onLogout }) {
                       <th className="px-6 py-5 text-left"><span className="text-white/80 font-light text-xs uppercase tracking-wider">First Name</span></th>
                       <th className="px-6 py-5 text-left"><span className="text-white/80 font-light text-xs uppercase tracking-wider">Last Name</span></th>
                       <th className="px-6 py-5 text-left"><span className="text-white/80 font-light text-xs uppercase tracking-wider">Email</span></th>
+                      <th className="px-6 py-5 text-left"><span className="text-white/80 font-light text-xs uppercase tracking-wider">Attendance</span></th>
                       <th className="px-6 py-5 text-left"><span className="text-white/80 font-light text-xs uppercase tracking-wider">Date Submitted</span></th>
                       <th className="px-6 py-5"></th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/10">
-                    {rsvps.map((rsvp, index) => (
+                    {filteredRsvps.map((rsvp, index) => (
                       <tr key={rsvp.id} className="hover:bg-white/5 transition duration-200 animate-fade-in" style={{ animationDelay: `${index * 40}ms` }}>
                         <td className="px-6 py-5"><span className="text-white font-light">{rsvp.first_name}</span></td>
                         <td className="px-6 py-5"><span className="text-white font-light">{rsvp.last_name}</span></td>
@@ -549,6 +587,12 @@ function AdminDashboardPage({ onLogout }) {
                           {rsvp.email
                             ? <span className="text-cyan-300/80 text-sm font-light">{rsvp.email}</span>
                             : <span className="text-white/20 text-sm italic">—</span>
+                          }
+                        </td>
+                        <td className="px-6 py-5">
+                          {rsvp.attendance === 'da'
+                            ? <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-light bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">✓ Attending</span>
+                            : <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-light bg-red-500/20 text-red-300 border border-red-500/30">✗ Declined</span>
                           }
                         </td>
                         <td className="px-6 py-5">
@@ -570,9 +614,16 @@ function AdminDashboardPage({ onLogout }) {
                   </tbody>
                 </table>
               </div>
-              <div className="bg-white/5 border-t border-white/10 px-6 py-5">
+              <div className="bg-white/5 border-t border-white/10 px-6 py-5 flex items-center justify-between">
                 <p className="text-white/60 text-sm font-light">
-                  Total: <span className="text-white font-light">{rsvps.length} guest{rsvps.length !== 1 ? 's' : ''}</span>
+                  Showing: <span className="text-white font-light">{filteredRsvps.length}</span>
+                  {attendanceFilter !== 'all' && <span className="text-white/40"> of {rsvps.length} total</span>}
+                  <span className="text-white/40"> guest{filteredRsvps.length === 1 ? '' : 's'}</span>
+                </p>
+                <p className="text-white/40 text-xs font-light">
+                  <span className="text-emerald-400">{rsvps.filter(r => r.attendance === 'da').length} attending</span>
+                  {' · '}
+                  <span className="text-red-400">{rsvps.filter(r => r.attendance === 'ne').length} declined</span>
                 </p>
               </div>
             </div>

@@ -14,5 +14,6 @@ CREATE TABLE IF NOT EXISTS rsvp (
   first_name  VARCHAR(100) NOT NULL,
   last_name   VARCHAR(100) NOT NULL,
   email       VARCHAR(255)           NULL,
+  attendance  VARCHAR(10)  NOT NULL DEFAULT 'da',
   created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
 );
