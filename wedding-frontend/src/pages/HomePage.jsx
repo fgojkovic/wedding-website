@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import LazyBackgroundImage from '../components/LazyBackgroundImage';
 // Countdown calculation helper
 function getCountdownParts(targetDate) {
   const now = new Date();
@@ -14,41 +15,41 @@ import '../styles/animations.css';
 import { CheckCircle, MapPin } from 'lucide-react';
 // List of all available wedding photos for random selection
 const weddingPhotos = [
-  "fm/Sneak M&P-1.jpg",
-  "fm/Sneak M&P-2.jpg",
-  "fm/Sneak M&P-3.jpg",
-  "fm/Sneak M&P-4.jpg",
-  "fm/Sneak M&P-5.jpg",
-  "fm/Sneak M&P-6.jpg",
-  "fm/Sneak M&P-7.jpg",
-  "fm/Sneak M&P-8.jpg",
-  "fm/Sneak M&P-9.jpg",
-  "fm/Sneak M&P-10.jpg",
-  "fm/Sneak M&P-11.jpg",
-  "fm/Sneak M&P-12.jpg",
-  "fm/Sneak M&P-13.jpg",
-  "fm/Sneak M&P-14.jpg",
-  "fm/Sneak M&P-15.jpg",
-  "fm/Sneak M&P-16.jpg",
-  "fm/Sneak M&P-17.jpg",
-  "fm/Sneak M&P-18.jpg",
-  "fm/Sneak M&P-19.jpg",
-  "fm/Sneak M&P-20.jpg",
-  "fm/Sneak M&P-21.jpg",
-  "fm/Sneak M&P-22.jpg",
-  "fm/Sneak M&P-23.jpg",
-  "fm/Sneak M&P-24.jpg",
-  "fm/Sneak M&P-25.jpg",
-  "fm/Sneak M&P-26.jpg",
-  "fm/Sneak M&P-27.jpg",
-  "fm/Sneak M&P-28.jpg",
-  "fm/Sneak M&P-29.jpg",
-  "fm/Sneak M&P-30.jpg",
-  "fm/Sneak M&P-31.jpg",
-  "fm/Sneak M&P-32.jpg",
-  "fm/Sneak M&P-33.jpg",
-  "fm/Sneak M&P-34.jpg",
-  "fm/Sneak M&P-35.jpg",
+  "fm/webp/Sneak M&P-1.webp",
+  "fm/webp/Sneak M&P-2.webp",
+  "fm/webp/Sneak M&P-3.webp",
+  "fm/webp/Sneak M&P-4.webp",
+  "fm/webp/Sneak M&P-5.webp",
+  "fm/webp/Sneak M&P-6.webp",
+  "fm/webp/Sneak M&P-7.webp",
+  "fm/webp/Sneak M&P-8.webp",
+  "fm/webp/Sneak M&P-9.webp",
+  "fm/webp/Sneak M&P-10.webp",
+  "fm/webp/Sneak M&P-11.webp",
+  "fm/webp/Sneak M&P-12.webp",
+  "fm/webp/Sneak M&P-13.webp",
+  "fm/webp/Sneak M&P-14.webp",
+  "fm/webp/Sneak M&P-15.webp",
+  "fm/webp/Sneak M&P-16.webp",
+  "fm/webp/Sneak M&P-17.webp",
+  "fm/webp/Sneak M&P-18.webp",
+  "fm/webp/Sneak M&P-19.webp",
+  "fm/webp/Sneak M&P-20.webp",
+  "fm/webp/Sneak M&P-21.webp",
+  "fm/webp/Sneak M&P-22.webp",
+  "fm/webp/Sneak M&P-23.webp",
+  "fm/webp/Sneak M&P-24.webp",
+  "fm/webp/Sneak M&P-25.webp",
+  "fm/webp/Sneak M&P-26.webp",
+  "fm/webp/Sneak M&P-27.webp",
+  "fm/webp/Sneak M&P-28.webp",
+  "fm/webp/Sneak M&P-29.webp",
+  "fm/webp/Sneak M&P-30.webp",
+  "fm/webp/Sneak M&P-31.webp",
+  "fm/webp/Sneak M&P-32.webp",
+  "fm/webp/Sneak M&P-33.webp",
+  "fm/webp/Sneak M&P-34.webp",
+  "fm/webp/Sneak M&P-35.webp",
 ];
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
@@ -122,7 +123,11 @@ export default function HomePage() {
     <div className="w-full min-h-screen bg-white">
       {/* 1. Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('/images/${randomPhoto}')`, filter: 'brightness(0.85)' }} />
+        <LazyBackgroundImage
+          src={`/images/${randomPhoto}`}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ filter: 'brightness(0.85)' }}
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-white/0" />
         <div className="relative z-10 min-h-screen flex items-center justify-center px-4 w-full">
           <div className="text-center space-y-8 max-w-2xl mx-auto">
@@ -158,14 +163,26 @@ export default function HomePage() {
       {/* 3. Two-Photo Glide Section */}
       <section className="w-full py-24 bg-white flex flex-col items-center justify-center overflow-hidden">
         <div className="relative w-full max-w-5xl flex flex-col md:flex-row gap-8 px-4">
-          <div className="w-full md:w-1/2 h-96 rounded-3xl overflow-hidden shadow-lg transform md:-translate-x-16 glide-photo glide-photo-left" style={{ backgroundImage: `url('/images/${glidePhoto1}')`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
-          <div className="w-full md:w-1/2 h-96 rounded-3xl overflow-hidden shadow-lg transform md:translate-x-16 glide-photo glide-photo-right" style={{ backgroundImage: `url('/images/${glidePhoto2}')`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+          <LazyBackgroundImage
+            src={`/images/${glidePhoto1}`}
+            className="w-full md:w-1/2 h-96 rounded-3xl overflow-hidden shadow-lg transform md:-translate-x-16 glide-photo glide-photo-left"
+            style={{ backgroundSize: 'cover', backgroundPosition: 'center' }}
+          />
+          <LazyBackgroundImage
+            src={`/images/${glidePhoto2}`}
+            className="w-full md:w-1/2 h-96 rounded-3xl overflow-hidden shadow-lg transform md:translate-x-16 glide-photo glide-photo-right"
+            style={{ backgroundSize: 'cover', backgroundPosition: 'center' }}
+          />
         </div>
       </section>
 
       {/* 4. Countdown Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('/images/${countdownPhoto}')`, filter: 'brightness(0.7)' }} />
+        <LazyBackgroundImage
+          src={`/images/${countdownPhoto}`}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ filter: 'brightness(0.7)' }}
+        />
         <div className="absolute inset-0 bg-white/70" />
         <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 py-16 space-y-12">
           <h3 className="text-3xl md:text-4xl font-light text-gray-900">Do vjenčanja je ostalo:</h3>
@@ -243,8 +260,8 @@ export default function HomePage() {
                       className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-300 transition duration-300"
                       required
                     >
-                      <option value="da">Da (Yes)</option>
-                      <option value="ne">Ne (No)</option>
+                      <option value="da">Da</option>
+                      <option value="ne">Ne</option>
                     </select>
                   </div>
                   {errorMsg && <div className="text-red-500 text-sm bg-red-100 p-3 rounded border border-red-200 animate-shake">{errorMsg}</div>}

@@ -1,5 +1,6 @@
 // File: src/pages/AdminDashboardPage.jsx
 import React, { useState, useEffect } from 'react';
+import LazyBackgroundImage from '../components/LazyBackgroundImage';
 import { LogOut, Download, RefreshCw, Users, Calendar, CheckCircle2, Mail, Link, Upload, Send, Trash2 } from 'lucide-react';
 import '../styles/animations.css';
 
@@ -233,12 +234,10 @@ function AdminDashboardPage({ onLogout }) {
     <div className="relative min-h-screen overflow-hidden">
       <Snackbar message={snackbarMsg} onClose={() => setSnackbarMsg('')} color={snackbarColor} />
       {/* Background Image */}
-      <div
+      <LazyBackgroundImage
+        src="/images/admin-dashboard-bg.webp"
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url("/images/admin-dashboard-bg.jpg")',
-          filter: 'brightness(0.25)'
-        }}
+        style={{ filter: 'brightness(0.25)' }}
       />
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-800/80 to-slate-900/90" />
 
