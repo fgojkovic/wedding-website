@@ -91,27 +91,22 @@ app.get('/api/invite/:code', async (req, res) => {
 
 // ─── API: Submit RSVP ────────────────────────────────────────────────────────
 app.post('/api/rsvp', async (req, res) => {
-  const { firstName, lastName, email, inviteCode, attendance } = req.body;
+  const { firstName, lastName, email, attendance } = req.body;
 
-  if (!firstName || !lastName || !inviteCode) {
+  if (!firstName || !lastName) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   const connection = await pool.getConnection();
 
   try {
-    const [invite] = await connection.query(
-      'SELECT * FROM invites WHERE code = ?',
-      [inviteCode]
-    );
-
-    if (invite.length === 0) {
-      return res.status(401).json({ error: 'Invalid invitation code' });
-    }
+    // Keep compatibility with existing DB schema where invite_code is NOT NULL.
+    // We no longer use personalized invite codes, so a fixed public value is stored.
+    const publicInviteCode = 'PUBLIC';
 
     await connection.query(
       'INSERT INTO rsvp (first_name, last_name, email, invite_code, attendance) VALUES (?, ?, ?, ?, ?)',
-      [firstName, lastName, email || null, inviteCode, attendance || 'da']
+      [firstName, lastName, email || null, publicInviteCode, attendance || 'da']
     );
 
     res.json({ success: true, message: 'RSVP submitted successfully' });

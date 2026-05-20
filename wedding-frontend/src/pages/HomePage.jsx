@@ -260,8 +260,8 @@ export default function HomePage() {
                       className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-300 transition duration-300"
                       required
                     >
-                      <option value="da">Da (Yes)</option>
-                      <option value="ne">Ne (No)</option>
+                      <option value="da">Da</option>
+                      <option value="ne">Ne</option>
                     </select>
                   </div>
                   {errorMsg && <div className="text-red-500 text-sm bg-red-100 p-3 rounded border border-red-200 animate-shake">{errorMsg}</div>}
