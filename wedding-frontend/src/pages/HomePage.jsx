@@ -197,7 +197,7 @@ export default function HomePage() {
                       <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-3 bg-black/20 border border-white/50 rounded-lg text-white placeholder-white/70 focus:outline-none focus:border-white focus:ring-2 focus:ring-white/40 transition duration-300" placeholder="vas@email.com" />
                     </div>
                     {errorMsg && <div className="text-red-500 text-sm bg-red-100 p-3 rounded border border-red-200 animate-shake">{errorMsg}</div>}
-                    <button type="submit" disabled={loading || !firstName || !lastName} className="w-full py-3 bg-white hover:bg-gray-50 text-white border border-black/20 font-light rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg transform hover:scale-105 mt-8">{loading ? 'Slanje...' : 'Potvrdi dolazak'}</button>
+                    <button type="submit" disabled={loading || !firstName || !lastName} className="w-full py-3 bg-black hover:bg-black/90 text-white border border-white/30 font-light rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg transform hover:scale-105 mt-8">{loading ? 'Slanje...' : 'Potvrdi dolazak'}</button>
                   </form>
                 </>
               )}
