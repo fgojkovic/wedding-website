@@ -88,7 +88,7 @@ export default function HomePage() {
           <div className="text-center space-y-4 sm:space-y-6 md:space-y-8 max-w-2xl mx-auto">
             <h2 className="font-seasons text-3xl sm:text-5xl md:text-7xl lg:text-8xl text-white tracking-[0.06em] leading-tight animate-fade-in-down">Matea & Filip</h2>
             <p className="font-seasons text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/95 leading-relaxed animate-fade-in-up">Čuvajte datum, obucite osmijeh i slavite s nama</p>
-            <p className="font-seasons text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/95 leading-relaxed animate-fade-in-up">28.8.2026.</p>
+            <p className="font-seasons text-2xl sm:text-3xl md:text-4xl text-white/95 leading-relaxed animate-fade-in-up">♥</p>
           </div>
         </div>
       </section>
@@ -96,7 +96,8 @@ export default function HomePage() {
         {/* 2. Wedding Plan Section */}
       <section className="w-full py-12 md:py-16 bg-white flex flex-col items-center justify-center">
         <div className="w-full max-w-3xl px-4">
-          <h3 className="font-seasons text-3xl md:text-5xl text-black mb-10 text-center tracking-wide">Plan vjenčanja</h3>
+          <h3 className="font-seasons text-3xl md:text-5xl text-black mb-2 text-center tracking-wide">Plan vjenčanja</h3>
+          <p className="font-seasons text-xl sm:text-2xl text-black mb-8 text-center">28.8.2026.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="bg-white rounded-lg p-6 border border-black space-y-3 shadow flex flex-col items-center text-center">
               <p className="font-seasons text-black text-2xl">Crkva Sv. Nikola</p>
@@ -163,15 +164,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden min-h-[320px] sm:min-h-[540px] md:min-h-0">
         <img
           src={`/images/${closingPhoto}`}
           alt=""
-          className="w-full h-auto block opacity-80 mt-[-30px] sm:mt-[-200px] md:mt-[-350px] lg:mt-[-500px]"
+          className="absolute inset-0 w-full h-full object-cover object-top opacity-80 md:static md:h-auto md:block md:object-fill md:mt-[-350px] lg:mt-[-500px]"
           style={{ filter: 'brightness(0.9)' }}
         />
         {/* 5. RSVP Form Section */}
-        <section className="absolute inset-0 z-10 w-full flex items-center justify-center py-16 sm:py-20 md:py-8">
+        <section className="absolute inset-0 z-10 w-full flex items-start justify-center pt-6 sm:pt-10 md:items-center md:pt-0 md:py-8 overflow-y-auto md:overflow-visible">
           <div className="w-full max-w-2xl px-2 sm:px-4">
             <div className="bg-transparent rounded-lg p-1 sm:p-3 md:p-6 border border-black/30">
               {submitted ? (
@@ -211,9 +212,9 @@ export default function HomePage() {
       <footer className="w-full py-12 sm:py-20 md:py-28 bg-white flex flex-col items-center justify-center text-center">
         <div className="w-full max-w-2xl px-4">
           <div className="font-seasons text-lg sm:text-2xl md:text-3xl text-black leading-relaxed">
-            You fill my heart with gladness<br/>
+            "You fill my heart with gladness<br/>
             Take away all my sadness<br/>
-            Ease my troubles, that's what you do
+            Ease my troubles, that's what you do"
           </div>
         </div>
       </footer>

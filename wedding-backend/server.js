@@ -42,24 +42,24 @@ const transporter = nodemailer.createTransport({
 
 function buildReminderEmail(firstName) {
   return {
-    subject: '💍 Reminder: Filip & Matea\'s Wedding is Tomorrow!',
+    subject: "💍 Podsjetnik: Vjenčanje Matee & Filipa je sutra!",
     html: `
       <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; background: #0f172a; color: #e2e8f0; padding: 40px; border-radius: 12px;">
-        <h1 style="font-weight: 300; font-size: 2rem; color: #fff; margin-bottom: 8px;">Filip &amp; Matea</h1>
-        <p style="color: #94a3b8; margin-bottom: 32px;">Wedding Reminder</p>
-        <p style="font-size: 1.1rem;">Dear ${firstName},</p>
-        <p>This is a friendly reminder that you are confirmed for our wedding <strong>tomorrow, August 28th 2026</strong>. We can't wait to celebrate with you!</p>
+        <h1 style="font-weight: 300; font-size: 2rem; color: #fff; margin-bottom: 8px;">Matea &amp; Filip</h1>
+        <p style="color: #94a3b8; margin-bottom: 32px;">Podsjetnik za vjenčanje</p>
+        <p style="font-size: 1.1rem;">Dragi ${firstName},</p>
+        <p>Ovo je prijateljski podsjetnik da ste potvrđeni za naše vjenčanje <strong>sutra, 28. kolovoza 2026.</strong>. Jedva čekamo proslaviti s vama!</p>
         <div style="background: #1e293b; border-left: 3px solid #f43f5e; padding: 20px; border-radius: 8px; margin: 24px 0;">
-          <p style="margin: 0 0 8px; color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">📍 Ceremony</p>
-          <p style="margin: 0; font-size: 1.05rem;">Church Sv. Nikola, Varaždin</p>
-          <p style="margin: 4px 0 0; color: #94a3b8;">August 28th at 17:30</p>
+          <p style="margin: 0 0 8px; color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">📍 Ceremonija</p>
+          <p style="margin: 0; font-size: 1.05rem;">Crkva Sv. Nikola, Varaždin</p>
+          <p style="margin: 4px 0 0; color: #94a3b8;">28. kolovoza u 17:30</p>
         </div>
         <div style="background: #1e293b; border-left: 3px solid #06b6d4; padding: 20px; border-radius: 8px; margin: 24px 0;">
-          <p style="margin: 0 0 8px; color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">🍽️ Reception</p>
-          <p style="margin: 0; font-size: 1.05rem;">Restaurant Kneja, Međimurje</p>
-          <p style="margin: 4px 0 0; color: #94a3b8;">August 28th at 20:00</p>
+          <p style="margin: 0 0 8px; color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">🍽️ Proslava</p>
+          <p style="margin: 0; font-size: 1.05rem;">Restaurant Kneja, Mali Mihaljevec</p>
+          <p style="margin: 4px 0 0; color: #94a3b8;">20:00</p>
         </div>
-        <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 32px;">See you tomorrow! 🥂<br/><em>Filip &amp; Matea</em></p>
+        <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 32px;">Vidimo se sutra! 🥂<br/><em>Matea &amp; Filip</em></p>
       </div>
     `,
   };
@@ -257,7 +257,7 @@ app.post('/api/email/test', async (req, res) => {
 
   try {
     await transporter.sendMail({
-      from: `"Filip & Matea 💍" <${process.env.SMTP_USER}>`,
+      from: `"Matea & Filip 💍" <${process.env.SMTP_USER}>`,
       to,
       subject: `[TEST] ${subject}`,
       html,
@@ -285,7 +285,7 @@ async function sendReminderEmails() {
       const { subject, html } = buildReminderEmail(guest.first_name);
       try {
         await transporter.sendMail({
-          from: `"Filip & Matea 💍" <${process.env.SMTP_USER}>`,
+          from: `"Matea & Filip 💍" <${process.env.SMTP_USER}>`,
           to: guest.email,
           subject,
           html,
