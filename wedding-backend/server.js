@@ -91,7 +91,7 @@ app.get('/api/invite/:code', async (req, res) => {
 
 // ─── API: Submit RSVP ────────────────────────────────────────────────────────
 app.post('/api/rsvp', async (req, res) => {
-  const { firstName, lastName, email, attendance } = req.body;
+  const { firstName, lastName, email } = req.body;
 
   if (!firstName || !lastName) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -101,8 +101,8 @@ app.post('/api/rsvp', async (req, res) => {
 
   try {
     await connection.query(
-      'INSERT INTO rsvp (first_name, last_name, email, attendance) VALUES (?, ?, ?, ?)',
-      [firstName, lastName, email || null, attendance || 'da']
+      'INSERT INTO rsvp (first_name, last_name, email) VALUES (?, ?, ?)',
+      [firstName, lastName, email || null]
     );
 
     res.json({ success: true, message: 'RSVP submitted successfully' });

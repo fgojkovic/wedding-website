@@ -1,10 +1,11 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+@import './styles/fonts/the-seasons.css';
 
 body {
   margin: 0;
   padding: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'The Seasons', Georgia, 'Times New Roman', serif;
 }
 
 .font-fancy {
