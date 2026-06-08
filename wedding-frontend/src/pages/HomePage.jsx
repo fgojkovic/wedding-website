@@ -153,12 +153,12 @@ export default function HomePage() {
           <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed">Molimo potvrdite svoj dolazak do 25.7. putem forme niže ili na brojeve telefona</p>
           <div className="flex flex-col md:flex-row justify-center gap-8 mt-8">
             <div>
-              <div className="font-seasons text-black text-xl">Filip</div>
-              <div className="text-gray-700">+385 99 3688 644</div>
-            </div>
-            <div>
               <div className="font-seasons text-black text-xl">Matea</div>
               <div className="text-gray-700">+385 95 390 4605</div>
+            </div>
+            <div>
+              <div className="font-seasons text-black text-xl">Filip</div>
+              <div className="text-gray-700">+385 99 3688 644</div>
             </div>
           </div>
         </div>
@@ -168,7 +168,7 @@ export default function HomePage() {
         <img
           src={`/images/${closingPhoto}`}
           alt=""
-          className="absolute inset-0 w-full h-full object-cover object-top opacity-80 md:static md:h-auto md:block md:object-fill md:mt-[-350px] lg:mt-[-500px]"
+          className="absolute inset-0 w-full h-full object-cover object-top opacity-80 md:static md:h-auto md:block md:mt-0"
           style={{ filter: 'brightness(0.9)' }}
         />
         {/* 5. RSVP Form Section */}
