@@ -79,7 +79,7 @@ export default function HomePage() {
         <img
           src={`/images/${heroPhoto}`}
           alt=""
-          className="w-full h-auto block opacity-80 mt-[-80px] sm:mt-[-300px] md:mt-[-500px] lg:mt-[-700px]"
+          className="w-full h-auto block opacity-80 mt-[-80px] sm:mt-[-300px] md:mt-[-400px] lg:mt-[-500px] xl:mt-[-600px] 2xl:mt-[-700px]"
           style={{ filter: 'brightness(0.85)' }}
         />
 
@@ -178,8 +178,8 @@ export default function HomePage() {
               {submitted ? (
                 <div className="flex flex-col items-center justify-center text-center space-y-6">
                   <CheckCircle size={80} className="text-green-400 mx-auto" />
-                  <h3 className="font-seasons text-3xl text-white">Thank You!</h3>
-                  <p className="text-white/90">Your RSVP has been confirmed. We can't wait to celebrate with you!</p>
+                  <h3 className="font-seasons text-3xl text-white">Hvala!</h3>
+                  <p className="text-white/90">Vaša potvrda dolaska je zaprimljena. Jedva čekamo proslaviti s vama!</p>
                 </div>
               ) : (
                 <>
