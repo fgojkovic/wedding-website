@@ -57,7 +57,7 @@ function buildReminderEmail(firstName) {
           <p style="margin: 0; font-size: 1.05rem;">Restoran Kneja, Mali Mihaljevec</p>
           <p style="margin: 4px 0 0; color: #1e293b;">18:30</p>
         </div>
-        <p style="color: #1e293b; margin-top: 32px;">Vidimo se sutra! 🥂<br/><em>Matea &amp; Filip</em></p>
+        <p>Vidimo se sutra! 🥂<br/><em>Matea &amp; Filip</em></p>
       </div>
     `,
   };
