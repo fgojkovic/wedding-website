@@ -48,7 +48,7 @@ function buildReminderEmail(firstName) {
         <p>Nakon mjeseci planiranja, brojanja dana i odgovaranja na pitanje "Jeste li spremni?", napokon je stiglo vrijeme za slavlje!</p>
         <p>Jedva čekamo nazdraviti s vama, zaplesati do jutra i stvoriti uspomene koje ćemo prepričavati godinama.</p>
         <div style="background: #94a3b8; border-left: 3px solid #625e5e; padding: 20px; border-radius: 8px; margin: 24px 0;">
-          <p style="margin: 0 0 8px; color: #1e293b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">📍 Ceremonija</p>
+          <p style="margin: 0 0 8px; color: #1e293b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">📍 Obred</p>
           <p style="margin: 0; font-size: 1.05rem;">Crkva Sv. Nikole, Varaždin</p>
           <p style="margin: 4px 0 0; color: #1e293b;">17:30</p>
         </div>
