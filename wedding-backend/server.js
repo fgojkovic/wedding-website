@@ -44,21 +44,21 @@ function buildReminderEmail(firstName) {
   return {
     subject: "Sutra je taj dan! 🎉",
     html: `
-      <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; background: #0f172a; color: #e2e8f0; padding: 40px; border-radius: 12px;">
+      <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; background: #e2e8f0; color: #0f172a; padding: 40px; border-radius: 12px;">
         <p>Nakon mjeseci planiranja, brojanja dana i odgovaranja na pitanje "Jeste li spremni?", napokon je stiglo vrijeme za slavlje!</p>
         <br/>
         <p>Jedva čekamo nazdraviti s vama, zaplesati do jutra i stvoriti uspomene koje ćemo prepričavati godinama.</p>
-        <div style="background: #1e293b; border-left: 3px solid #f43f5e; padding: 20px; border-radius: 8px; margin: 24px 0;">
-          <p style="margin: 0 0 8px; color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">📍 Ceremonija</p>
-          <p style="margin: 0; font-size: 1.05rem;">Crkva Sv. Nikola, Varaždin</p>
-          <p style="margin: 4px 0 0; color: #94a3b8;">17:30</p>
+        <div style="background: #94a3b8; border-left: 3px solid #625e5e; padding: 20px; border-radius: 8px; margin: 24px 0;">
+          <p style="margin: 0 0 8px; color: #1e293b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">📍 Ceremonija</p>
+          <p style="margin: 0; font-size: 1.05rem;">Crkva Sv. Nikole, Varaždin</p>
+          <p style="margin: 4px 0 0; color: #1e293b;">17:30</p>
         </div>
-        <div style="background: #1e293b; border-left: 3px solid #06b6d4; padding: 20px; border-radius: 8px; margin: 24px 0;">
-          <p style="margin: 0 0 8px; color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">🍽️ Proslava</p>
-          <p style="margin: 0; font-size: 1.05rem;">Restaurant Kneja, Mali Mihaljevec</p>
-          <p style="margin: 4px 0 0; color: #94a3b8;">18:30</p>
+        <div style="background: #94a3b8; border-left: 3px solid #625e5e; padding: 20px; border-radius: 8px; margin: 24px 0;">
+          <p style="margin: 0 0 8px; color: #1e293b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">🍽️ Proslava</p>
+          <p style="margin: 0; font-size: 1.05rem;">Restoran Kneja, Mali Mihaljevec</p>
+          <p style="margin: 4px 0 0; color: #1e293b;">18:30</p>
         </div>
-        <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 32px;">Vidimo se sutra! 🥂<br/><em>Matea &amp; Filip</em></p>
+        <p style="color: #1e293b; font-size: 0.9rem; margin-top: 32px;">Vidimo se sutra! 🥂<br/><em>Matea &amp; Filip</em></p>
       </div>
     `,
   };
