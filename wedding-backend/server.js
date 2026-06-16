@@ -46,7 +46,6 @@ function buildReminderEmail(firstName) {
     html: `
       <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; background: #e2e8f0; color: #0f172a; padding: 40px; border-radius: 12px;">
         <p>Nakon mjeseci planiranja, brojanja dana i odgovaranja na pitanje "Jeste li spremni?", napokon je stiglo vrijeme za slavlje!</p>
-        <br/>
         <p>Jedva čekamo nazdraviti s vama, zaplesati do jutra i stvoriti uspomene koje ćemo prepričavati godinama.</p>
         <div style="background: #94a3b8; border-left: 3px solid #625e5e; padding: 20px; border-radius: 8px; margin: 24px 0;">
           <p style="margin: 0 0 8px; color: #1e293b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">📍 Ceremonija</p>
