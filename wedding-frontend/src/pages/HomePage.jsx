@@ -100,7 +100,7 @@ export default function HomePage() {
           <p className="font-seasons text-xl sm:text-2xl text-black mb-8 text-center">28.8.2026.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="bg-white rounded-lg p-6 border border-black space-y-3 shadow flex flex-col items-center text-center">
-              <p className="font-seasons text-black text-2xl">Crkva Sv. Nikola</p>
+              <p className="font-seasons text-black text-2xl">Crkva Sv. Nikole</p>
               <p className="text-black text-base">Trg slobode 11, 42000, Varaždin</p>
               <p className="text-black text-base">17:30</p>
               <a href="https://maps.app.goo.gl/Q5w1anWPi4d7AXn27" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs px-3 py-1 bg-gray-300 hover:bg-gray-400 text-black rounded-full transition duration-200"><MapPin size={12} /> Pogledaj kartu</a>
