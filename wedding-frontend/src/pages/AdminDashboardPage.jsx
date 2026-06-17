@@ -33,7 +33,7 @@ function AdminDashboardPage({ onLogout }) {
   const [lastUpdated, setLastUpdated] = useState(null);
 
   // Invite generator state
-  const [inviteBaseUrl, setInviteBaseUrl] = useState('https://f-m-wedding.duckdns.org/');
+  const [inviteBaseUrl, setInviteBaseUrl] = useState('https://m-f-wedding.duckdns.org/');
   const [inviteFile, setInviteFile] = useState(null);
   const [inviteLoading, setInviteLoading] = useState(false);
   const [inviteResults, setInviteResults] = useState(null);
